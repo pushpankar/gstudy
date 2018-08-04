@@ -154,8 +154,8 @@ defmodule Gstudy.Frameworks do
 
   @doc """
   Creates a topic and its associations
-  ## Examples
-      @ToDo
+  ## Example
+      iex> create_topic(%{name: "abc"}, [%{url: abc}, %{url: xyz}])
   """
   def create_topic(topic, links \\ [%{}]) do
     topic_id = elem(insert_topic(topic), 1).id
@@ -283,6 +283,9 @@ defmodule Gstudy.Frameworks do
     create_topic_maker(topic_id, tl(link_ids))
   end
 
+  @doc """
+  Inserts row in topic-link junction table
+  """
   def add_link_to_topic(attrs \\ %{}) do
     %Topic_maker{}
     |> Topic_maker.changeset(attrs)
