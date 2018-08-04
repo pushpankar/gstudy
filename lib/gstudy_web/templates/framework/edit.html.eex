@@ -1,0 +1,5 @@
+<h2>Edit Framework</h2>
+
+<%= render "form.html", Map.put(assigns, :action, framework_path(@conn, :update, @framework)) %>
+
+<span><%= link "Back", to: framework_path(@conn, :index) %></span>

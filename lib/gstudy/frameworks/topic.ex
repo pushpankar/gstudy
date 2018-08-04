@@ -6,6 +6,7 @@ defmodule Gstudy.Frameworks.Topic do
   schema "topics" do
     field :name, :string
     many_to_many :links, Gstudy.Frameworks.Link, join_through: Gstudy.Frameworks.Topic_maker
+    many_to_many :frameworks, Gstudy.Frameworks.Framework, join_through: Gstudy.Frameworks.Framework_junction
 
     timestamps()
   end

@@ -296,4 +296,124 @@ defmodule Gstudy.FrameworksTest do
       assert %Ecto.Changeset{} = Frameworks.change_topic_maker(topic_maker)
     end
   end
+
+  describe "frameworks" do
+    alias Gstudy.Frameworks.Framework
+
+    @valid_attrs %{description: "some description", title: "some title"}
+    @update_attrs %{description: "some updated description", title: "some updated title"}
+    @invalid_attrs %{description: nil, title: nil}
+
+    def framework_fixture(attrs \\ %{}) do
+      {:ok, framework} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Frameworks.create_framework()
+
+      framework
+    end
+
+    test "list_frameworks/0 returns all frameworks" do
+      framework = framework_fixture()
+      assert Frameworks.list_frameworks() == [framework]
+    end
+
+    test "get_framework!/1 returns the framework with given id" do
+      framework = framework_fixture()
+      assert Frameworks.get_framework!(framework.id) == framework
+    end
+
+    test "create_framework/1 with valid data creates a framework" do
+      assert {:ok, %Framework{} = framework} = Frameworks.create_framework(@valid_attrs)
+      assert framework.description == "some description"
+      assert framework.title == "some title"
+    end
+
+    test "create_framework/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Frameworks.create_framework(@invalid_attrs)
+    end
+
+    test "update_framework/2 with valid data updates the framework" do
+      framework = framework_fixture()
+      assert {:ok, framework} = Frameworks.update_framework(framework, @update_attrs)
+      assert %Framework{} = framework
+      assert framework.description == "some updated description"
+      assert framework.title == "some updated title"
+    end
+
+    test "update_framework/2 with invalid data returns error changeset" do
+      framework = framework_fixture()
+      assert {:error, %Ecto.Changeset{}} = Frameworks.update_framework(framework, @invalid_attrs)
+      assert framework == Frameworks.get_framework!(framework.id)
+    end
+
+    test "delete_framework/1 deletes the framework" do
+      framework = framework_fixture()
+      assert {:ok, %Framework{}} = Frameworks.delete_framework(framework)
+      assert_raise Ecto.NoResultsError, fn -> Frameworks.get_framework!(framework.id) end
+    end
+
+    test "change_framework/1 returns a framework changeset" do
+      framework = framework_fixture()
+      assert %Ecto.Changeset{} = Frameworks.change_framework(framework)
+    end
+  end
+
+  describe "frameworks_junctions" do
+    alias Gstudy.Frameworks.Framework_junction
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def framework_junction_fixture(attrs \\ %{}) do
+      {:ok, framework_junction} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Frameworks.create_framework_junction()
+
+      framework_junction
+    end
+
+    test "list_frameworks_junctions/0 returns all frameworks_junctions" do
+      framework_junction = framework_junction_fixture()
+      assert Frameworks.list_frameworks_junctions() == [framework_junction]
+    end
+
+    test "get_framework_junction!/1 returns the framework_junction with given id" do
+      framework_junction = framework_junction_fixture()
+      assert Frameworks.get_framework_junction!(framework_junction.id) == framework_junction
+    end
+
+    test "create_framework_junction/1 with valid data creates a framework_junction" do
+      assert {:ok, %Framework_junction{} = framework_junction} = Frameworks.create_framework_junction(@valid_attrs)
+    end
+
+    test "create_framework_junction/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Frameworks.create_framework_junction(@invalid_attrs)
+    end
+
+    test "update_framework_junction/2 with valid data updates the framework_junction" do
+      framework_junction = framework_junction_fixture()
+      assert {:ok, framework_junction} = Frameworks.update_framework_junction(framework_junction, @update_attrs)
+      assert %Framework_junction{} = framework_junction
+    end
+
+    test "update_framework_junction/2 with invalid data returns error changeset" do
+      framework_junction = framework_junction_fixture()
+      assert {:error, %Ecto.Changeset{}} = Frameworks.update_framework_junction(framework_junction, @invalid_attrs)
+      assert framework_junction == Frameworks.get_framework_junction!(framework_junction.id)
+    end
+
+    test "delete_framework_junction/1 deletes the framework_junction" do
+      framework_junction = framework_junction_fixture()
+      assert {:ok, %Framework_junction{}} = Frameworks.delete_framework_junction(framework_junction)
+      assert_raise Ecto.NoResultsError, fn -> Frameworks.get_framework_junction!(framework_junction.id) end
+    end
+
+    test "change_framework_junction/1 returns a framework_junction changeset" do
+      framework_junction = framework_junction_fixture()
+      assert %Ecto.Changeset{} = Frameworks.change_framework_junction(framework_junction)
+    end
+  end
 end

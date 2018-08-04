@@ -20,6 +20,7 @@ defmodule GstudyWeb.Router do
     resources "/users", UserController
     resources "/sessions", SessionController, only: [:new, :create, :delete],
                                               singleton: true
+    resources "/frameworks", FrameworkController
   end
 
   defp authenticate_user(conn, _) do

@@ -1,0 +1,28 @@
+<h2>Listing Frameworks</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for framework <- @frameworks do %>
+    <tr>
+      <td><%= framework.title %></td>
+      <td><%= framework.description %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: framework_path(@conn, :show, framework), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: framework_path(@conn, :edit, framework), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: framework_path(@conn, :delete, framework), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Framework", to: framework_path(@conn, :new) %></span>

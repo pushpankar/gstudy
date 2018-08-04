@@ -338,4 +338,196 @@ defmodule Gstudy.Frameworks do
   def change_topic_maker(%Topic_maker{} = topic_maker) do
     Topic_maker.changeset(topic_maker, %{})
   end
+
+  alias Gstudy.Frameworks.Framework
+
+  @doc """
+  Returns the list of frameworks.
+
+  ## Examples
+
+      iex> list_frameworks()
+      [%Framework{}, ...]
+
+  """
+  def list_frameworks do
+    Repo.all(Framework)
+  end
+
+  @doc """
+  Gets a single framework.
+
+  Raises `Ecto.NoResultsError` if the Framework does not exist.
+
+  ## Examples
+
+      iex> get_framework!(123)
+      %Framework{}
+
+      iex> get_framework!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_framework!(id), do: Repo.get!(Framework, id)
+
+  @doc """
+  Creates a framework.
+
+  ## Examples
+
+      iex> create_framework(%{field: value})
+      {:ok, %Framework{}}
+
+      iex> create_framework(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_framework(attrs \\ %{}) do
+    %Framework{}
+    |> Framework.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a framework.
+
+  ## Examples
+
+      iex> update_framework(framework, %{field: new_value})
+      {:ok, %Framework{}}
+
+      iex> update_framework(framework, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_framework(%Framework{} = framework, attrs) do
+    framework
+    |> Framework.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Framework.
+
+  ## Examples
+
+      iex> delete_framework(framework)
+      {:ok, %Framework{}}
+
+      iex> delete_framework(framework)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_framework(%Framework{} = framework) do
+    Repo.delete(framework)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking framework changes.
+
+  ## Examples
+
+      iex> change_framework(framework)
+      %Ecto.Changeset{source: %Framework{}}
+
+  """
+  def change_framework(%Framework{} = framework) do
+    Framework.changeset(framework, %{})
+  end
+
+  alias Gstudy.Frameworks.Framework_junction
+
+  @doc """
+  Returns the list of frameworks_junctions.
+
+  ## Examples
+
+      iex> list_frameworks_junctions()
+      [%Framework_junction{}, ...]
+
+  """
+  def list_frameworks_junctions do
+    Repo.all(Framework_junction)
+  end
+
+  @doc """
+  Gets a single framework_junction.
+
+  Raises `Ecto.NoResultsError` if the Framework junction does not exist.
+
+  ## Examples
+
+      iex> get_framework_junction!(123)
+      %Framework_junction{}
+
+      iex> get_framework_junction!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_framework_junction!(id), do: Repo.get!(Framework_junction, id)
+
+  @doc """
+  Creates a framework_junction.
+
+  ## Examples
+
+      iex> create_framework_junction(%{field: value})
+      {:ok, %Framework_junction{}}
+
+      iex> create_framework_junction(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_framework_junction(attrs \\ %{}) do
+    %Framework_junction{}
+    |> Framework_junction.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a framework_junction.
+
+  ## Examples
+
+      iex> update_framework_junction(framework_junction, %{field: new_value})
+      {:ok, %Framework_junction{}}
+
+      iex> update_framework_junction(framework_junction, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_framework_junction(%Framework_junction{} = framework_junction, attrs) do
+    framework_junction
+    |> Framework_junction.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Framework_junction.
+
+  ## Examples
+
+      iex> delete_framework_junction(framework_junction)
+      {:ok, %Framework_junction{}}
+
+      iex> delete_framework_junction(framework_junction)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_framework_junction(%Framework_junction{} = framework_junction) do
+    Repo.delete(framework_junction)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking framework_junction changes.
+
+  ## Examples
+
+      iex> change_framework_junction(framework_junction)
+      %Ecto.Changeset{source: %Framework_junction{}}
+
+  """
+  def change_framework_junction(%Framework_junction{} = framework_junction) do
+    Framework_junction.changeset(framework_junction, %{})
+  end
 end
