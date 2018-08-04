@@ -133,7 +133,37 @@ defmodule Gstudy.Frameworks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_topic!(id), do: Repo.get!(Topic, id)
+  def get_topic(id) do
+    Topic
+    |> Repo.get(id)
+    |> Repo.preload(:links)
+  end
+
+  def link_to_id(link) do
+    link
+    |> create_link()
+    |> handle_existing_link()
+  end
+
+  defp handle_existing_link({:ok, _link} = status), do: status
+  defp handle_existing_link({:error, changeset}) do
+    { :ok,
+      Repo.get_by!(Link, url: changeset.changes.url)
+    }
+  end
+
+  @doc """
+  Creates a topic and its associations
+  ## Examples
+      @ToDo
+  """
+  def create_topic(topic, links \\ [%{}]) do
+    topic_id = elem(insert_topic(topic), 1).id
+
+    link_ids = Enum.map(links, fn(x) -> elem(link_to_id(x), 1).id end)
+    create_topic_maker(topic_id, link_ids)
+  end
+
 
   @doc """
   Creates a topic.
@@ -147,7 +177,7 @@ defmodule Gstudy.Frameworks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_topic(attrs \\ %{}) do
+  def insert_topic(attrs \\ %{}) do
     %Topic{}
     |> Topic.changeset(attrs)
     |> Repo.insert()
@@ -247,7 +277,13 @@ defmodule Gstudy.Frameworks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_topic_maker(attrs \\ %{}) do
+  def create_topic_maker(_topic_id, []), do: {:ok}
+  def create_topic_maker(topic_id, link_ids) do
+    add_link_to_topic(%{topic_id: topic_id, link_id: hd(link_ids)})
+    create_topic_maker(topic_id, tl(link_ids))
+  end
+
+  def add_link_to_topic(attrs \\ %{}) do
     %Topic_maker{}
     |> Topic_maker.changeset(attrs)
     |> Repo.insert()
