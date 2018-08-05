@@ -11,5 +11,6 @@ defmodule Gstudy.Repo.Migrations.CreateTopicMakers do
 
     create index(:topic_makers, [:topic_id])
     create index(:topic_makers, [:link_id])
+    create unique_index(:topic_makers, [:topic_id, :link_id], name: :topic_link_index)
   end
 end

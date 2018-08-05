@@ -1,0 +1,6 @@
+<ul>
+    <%= for topic <- @topics do %>
+        <li> <%= topic.name %> </li>
+        <%= render "link.html", links: topic.links%>
+    <% end %>
+</ul>

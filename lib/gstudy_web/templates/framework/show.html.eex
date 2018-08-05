@@ -12,6 +12,11 @@
     <%= @framework.description %>
   </li>
 
+  <li>
+    <strong> Topic: </strong>
+    <%= render "topic.html", topics: @framework.topics %>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: framework_path(@conn, :edit, @framework) %></span>

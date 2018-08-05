@@ -383,8 +383,8 @@ defmodule Gstudy.Frameworks do
   #
   iex> create_framework(%{title: "Learn Nodejs", 
     description: "Learn Nodejs in 30 Days from scratch"
-    topics: [%{name: "abc", links: [%{url: abc}, %{url: xyz}]}, 
-             %{name: "abc", links: [%{url: abc}, %{url: xyz}]}
+    topics: [%{name: "abc", links: [%{url: "abc.com"}, %{url: "xyz.in"}]}, 
+             %{name: "abcd", links: [%{url: "abc.com"}, %{url: "xyz.com"}]}
             ]
     })
       iex> create_framework(%{field: value})

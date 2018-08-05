@@ -16,5 +16,7 @@ defmodule Gstudy.Frameworks.Topic_maker do
     topic_maker
     |> cast(attrs, [:topic_id, :link_id])
     |> validate_required([:topic_id, :link_id])
+    |> unique_constraint(:link, name: :topic_link_index)
+
   end
 end
