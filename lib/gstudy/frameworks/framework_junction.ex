@@ -5,8 +5,8 @@ defmodule Gstudy.Frameworks.Framework_junction do
   @primary_key false
 
   schema "frameworks_junctions" do
-    belongs_to :framework_id, Gstudy.Frameworks.Framework
-    belongs_to :topic_id, :id, Gstudy.Frameworks.Topic
+    belongs_to :framework, Gstudy.Frameworks.Framework
+    belongs_to :topic, Gstudy.Frameworks.Topic
 
     timestamps()
   end
@@ -15,6 +15,6 @@ defmodule Gstudy.Frameworks.Framework_junction do
   def changeset(framework_junction, attrs) do
     framework_junction
     |> cast(attrs, [:framework_id, :topic_id])
-    |> validate_required([:framwork_id, :topic_id])
+    |> validate_required([:framework_id, :topic_id])
   end
 end

@@ -126,11 +126,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> get_topic!(123)
-      %Topic{}
+  iex> get_topic!(123)
+  %Topic{}
 
-      iex> get_topic!(456)
-      ** (Ecto.NoResultsError)
+  iex> get_topic!(456)
+  ** (Ecto.NoResultsError)
 
   """
   def get_topic(id) do
@@ -155,7 +155,7 @@ defmodule Gstudy.Frameworks do
   @doc """
   Creates a topic and its associations
   ## Example
-      iex> create_topic(%{name: "abc"}, [%{url: abc}, %{url: xyz}])
+  iex> create_topic(%{name: "abc"}, [%{url: abc}, %{url: xyz}])
   """
   def create_topic(topic, links \\ [%{}]) do
     topic_id = elem(insert_topic(topic), 1).id
@@ -170,11 +170,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> create_topic(%{field: value})
-      {:ok, %Topic{}}
+  iex> create_topic(%{field: value})
+  {:ok, %Topic{}}
 
-      iex> create_topic(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+  iex> create_topic(%{field: bad_value})
+  {:error, %Ecto.Changeset{}}
 
   """
   def insert_topic(attrs \\ %{}) do
@@ -188,11 +188,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> update_topic(topic, %{field: new_value})
-      {:ok, %Topic{}}
+  iex> update_topic(topic, %{field: new_value})
+  {:ok, %Topic{}}
 
-      iex> update_topic(topic, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+  iex> update_topic(topic, %{field: bad_value})
+  {:error, %Ecto.Changeset{}}
 
   """
   def update_topic(%Topic{} = topic, attrs) do
@@ -206,11 +206,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> delete_topic(topic)
-      {:ok, %Topic{}}
+  iex> delete_topic(topic)
+  {:ok, %Topic{}}
 
-      iex> delete_topic(topic)
-      {:error, %Ecto.Changeset{}}
+  iex> delete_topic(topic)
+  {:error, %Ecto.Changeset{}}
 
   """
   def delete_topic(%Topic{} = topic) do
@@ -222,8 +222,8 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> change_topic(topic)
-      %Ecto.Changeset{source: %Topic{}}
+  iex> change_topic(topic)
+  %Ecto.Changeset{source: %Topic{}}
 
   """
   def change_topic(%Topic{} = topic) do
@@ -241,8 +241,8 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> list_topic_makers()
-      [%Topic_maker{}, ...]
+  iex> list_topic_makers()
+  [%Topic_maker{}, ...]
 
   """
   def list_topic_makers do
@@ -256,11 +256,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> get_topic_maker!(123)
-      %Topic_maker{}
+  iex> get_topic_maker!(123)
+  %Topic_maker{}
 
-      iex> get_topic_maker!(456)
-      ** (Ecto.NoResultsError)
+  iex> get_topic_maker!(456)
+  ** (Ecto.NoResultsError)
 
   """
   def get_topic_maker!(id), do: Repo.get!(Topic_maker, id)
@@ -270,11 +270,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> create_topic_maker(%{field: value})
-      {:ok, %Topic_maker{}}
+  iex> create_topic_maker(%{field: value})
+  {:ok, %Topic_maker{}}
 
-      iex> create_topic_maker(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+  iex> create_topic_maker(%{field: bad_value})
+  {:error, %Ecto.Changeset{}}
 
   """
   def create_topic_maker(_topic_id, []), do: {:ok}
@@ -297,11 +297,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> update_topic_maker(topic_maker, %{field: new_value})
-      {:ok, %Topic_maker{}}
+  iex> update_topic_maker(topic_maker, %{field: new_value})
+  {:ok, %Topic_maker{}}
 
-      iex> update_topic_maker(topic_maker, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+  iex> update_topic_maker(topic_maker, %{field: bad_value})
+  {:error, %Ecto.Changeset{}}
 
   """
   def update_topic_maker(%Topic_maker{} = topic_maker, attrs) do
@@ -315,11 +315,11 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> delete_topic_maker(topic_maker)
-      {:ok, %Topic_maker{}}
+  iex> delete_topic_maker(topic_maker)
+  {:ok, %Topic_maker{}}
 
-      iex> delete_topic_maker(topic_maker)
-      {:error, %Ecto.Changeset{}}
+  iex> delete_topic_maker(topic_maker)
+  {:error, %Ecto.Changeset{}}
 
   """
   def delete_topic_maker(%Topic_maker{} = topic_maker) do
@@ -331,8 +331,8 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> change_topic_maker(topic_maker)
-      %Ecto.Changeset{source: %Topic_maker{}}
+  iex> change_topic_maker(topic_maker)
+  %Ecto.Changeset{source: %Topic_maker{}}
 
   """
   def change_topic_maker(%Topic_maker{} = topic_maker) do
@@ -346,12 +346,14 @@ defmodule Gstudy.Frameworks do
 
   ## Examples
 
-      iex> list_frameworks()
-      [%Framework{}, ...]
+  iex> list_frameworks()
+  [%Framework{}, ...]
 
   """
   def list_frameworks do
-    Repo.all(Framework)
+    Framework
+    |> Repo.all()
+    |> Repo.preload(topics: [:links])
   end
 
   @doc """
@@ -368,7 +370,10 @@ defmodule Gstudy.Frameworks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_framework!(id), do: Repo.get!(Framework, id)
+  def get_framework!(id) do
+    Repo.get!(Framework, id)
+    |> Repo.preload(topics: [:links])
+  end
 
   @doc """
   Creates a framework.
