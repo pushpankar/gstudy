@@ -155,13 +155,14 @@ defmodule Gstudy.Frameworks do
   @doc """
   Creates a topic and its associations
   ## Example
-  iex> create_topic(%{name: "abc"}, [%{url: abc}, %{url: xyz}])
+  iex> create_topic(%{name: "abc", links: [%{url: abc}, %{url: xyz}]})
   """
-  def create_topic(topic, links \\ [%{}]) do
-    topic_id = elem(insert_topic(topic), 1).id
+  def create_topic(topic) do
+    # Handle fail case
+    topic_id = elem(insert_topic(%{name: topic.name}), 1).id
 
-    link_ids = Enum.map(links, fn(x) -> elem(link_to_id(x), 1).id end)
-    create_topic_maker(topic_id, link_ids)
+    link_ids = Enum.map(topic.links, fn(x) -> elem(link_to_id(x), 1).id end)
+    associate_topic_link(topic_id, link_ids)
   end
 
 
@@ -277,10 +278,10 @@ defmodule Gstudy.Frameworks do
   {:error, %Ecto.Changeset{}}
 
   """
-  def create_topic_maker(_topic_id, []), do: {:ok}
-  def create_topic_maker(topic_id, link_ids) do
+  def associate_topic_link(topic_id, []), do: {:ok, get_topic(topic_id)}
+  def associate_topic_link(topic_id, link_ids) do
     add_link_to_topic(%{topic_id: topic_id, link_id: hd(link_ids)})
-    create_topic_maker(topic_id, tl(link_ids))
+    associate_topic_link(topic_id, tl(link_ids))
   end
 
   @doc """
@@ -379,7 +380,13 @@ defmodule Gstudy.Frameworks do
   Creates a framework.
 
   ## Examples
-
+  #
+  iex> create_framework(%{title: "Learn Nodejs", 
+    description: "Learn Nodejs in 30 Days from scratch"
+    topics: [%{name: "abc", links: [%{url: abc}, %{url: xyz}]}, 
+             %{name: "abc", links: [%{url: abc}, %{url: xyz}]}
+            ]
+    })
       iex> create_framework(%{field: value})
       {:ok, %Framework{}}
 
@@ -387,7 +394,14 @@ defmodule Gstudy.Frameworks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_framework(attrs \\ %{}) do
+  def create_framework(framework \\ %{}) do
+    framework_id = elem(insert_framework(%{title: framework.title, description: framework.description}), 1).id
+
+    topic_ids = Enum.map(framework.topics, fn(x) -> elem(create_topic(x), 1).id end)
+    associate_framework_topic(framework_id, topic_ids)
+  end
+
+  def insert_framework(attrs \\ %{}) do
     %Framework{}
     |> Framework.changeset(attrs)
     |> Repo.insert()
@@ -471,6 +485,13 @@ defmodule Gstudy.Frameworks do
   """
   def get_framework_junction!(id), do: Repo.get!(Framework_junction, id)
 
+
+  def associate_framework_topic(framework_id, []), do: {:ok, get_framework!(framework_id)}
+  def associate_framework_topic(framework_id, topic_ids) do
+    add_topic_to_frameworks(%{framework_id: framework_id, topic_id: hd(topic_ids)})
+    associate_framework_topic(framework_id, tl(topic_ids))
+  end
+
   @doc """
   Creates a framework_junction.
 
@@ -483,7 +504,7 @@ defmodule Gstudy.Frameworks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_framework_junction(attrs \\ %{}) do
+  def add_topic_to_frameworks(attrs \\ %{}) do
     %Framework_junction{}
     |> Framework_junction.changeset(attrs)
     |> Repo.insert()
