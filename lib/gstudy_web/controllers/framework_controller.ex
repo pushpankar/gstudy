@@ -2,7 +2,7 @@ defmodule GstudyWeb.FrameworkController do
   use GstudyWeb, :controller
 
   alias Gstudy.Frameworks
-  alias Gstudy.Frameworks.Framework
+  alias Gstudy.Frameworks.{Framework, Topic, Link}
 
   def index(conn, _params) do
     frameworks = Frameworks.list_frameworks()

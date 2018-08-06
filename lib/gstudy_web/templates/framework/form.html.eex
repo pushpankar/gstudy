@@ -18,6 +18,22 @@
   </div>
 
   <div class="form-group">
+    <%= inputs_for f, :topics, fn tf -> %>
+      <%= label tf, :name, class: "control-label" %>
+      <%= text_input tf, :name, class: "form-control" %>
+      <%= error_tag tf, :name %>
+
+      <%= inputs_for tf, :links, fn lf -> %>
+        <%= label lf, :url, class: "control-label" %>
+        <%= text_input lf, :url, class: "form-control" %>
+        <%= error_tag lf, :url %>
+      <% end %>
+
+    <% end %>
+    
+  </div>
+
+  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

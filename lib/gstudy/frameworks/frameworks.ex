@@ -229,6 +229,7 @@ defmodule Gstudy.Frameworks do
   """
   def change_topic(%Topic{} = topic) do
     Topic.changeset(topic, %{})
+    |> Ecto.Changeset.put_assoc(:links, [change_link(%Link{})])
   end
 
 
@@ -452,6 +453,7 @@ defmodule Gstudy.Frameworks do
   """
   def change_framework(%Framework{} = framework) do
     Framework.changeset(framework, %{})
+    |> Ecto.Changeset.put_assoc(:topics, [change_topic(%Topic{})])
   end
 
   alias Gstudy.Frameworks.Framework_junction
