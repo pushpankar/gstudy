@@ -40,6 +40,7 @@ defmodule GstudyWeb do
       import GstudyWeb.Router.Helpers
       import GstudyWeb.ErrorHelpers
       import GstudyWeb.Gettext
+      import GstudyWeb.InputHelpers
     end
   end
 

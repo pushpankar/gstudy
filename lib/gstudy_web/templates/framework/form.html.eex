@@ -20,14 +20,16 @@
   <div class="form-group">
     <%= inputs_for f, :topics, fn tf -> %>
       <%= label tf, :name, class: "control-label" %>
-      <%= text_input tf, :name, class: "form-control" %>
+      <%= array_input tf, :name %>
       <%= error_tag tf, :name %>
 
       <%= inputs_for tf, :links, fn lf -> %>
         <%= label lf, :url, class: "control-label" %>
-        <%= text_input lf, :url, class: "form-control" %>
+        <%= array_input lf, :url %>
         <%= error_tag lf, :url %>
+      <%= array_add_button f, :url %>
       <% end %>
+      <%= array_add_button f, :name %>
 
     <% end %>
     
