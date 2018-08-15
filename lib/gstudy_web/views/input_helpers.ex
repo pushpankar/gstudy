@@ -1,6 +1,49 @@
 defmodule GstudyWeb.InputHelpers do
     use Phoenix.HTML
 
+    def links_input(form, field) do
+        values = Phoenix.HTML.Form.input_value(form, field) || [""]
+        id = Phoenix.HTML.Form.input_id(form, field)
+        type = Phoenix.HTML.Form.input_type(form, field)
+
+        content_tag :ol, id: container_id(id), class: "input_container", data: [index: Enum.count(values) ] do
+            values
+            |> Enum.with_index()
+            |> Enum.map(fn {value, index} -> 
+                new_id = id <> "_#{index}"
+                input_opts = [
+                    name: Phoenix.HTML.Form.input_name(form, field),
+                    value: value,
+                    id: new_id,
+                    class: "form-control"
+                ]
+                form_element(form, field, value, index)
+            end)
+        end
+    end
+
+    def topics_input(form, field) do
+        values = Phoenix.HTML.Form.input_value(form, field) || [""]
+        id = Phoenix.HTML.Form.input_id(form, field)
+        type = Phoenix.HTML.Form.input_type(form, field)
+
+        content_tag :ol, id: container_id(id), class: "input_container", data: [index: Enum.count(values) ] do
+            values
+            |> Enum.with_index()
+            |> Enum.map(fn {value, index} -> 
+                new_id = id <> "_#{index}"
+                input_opts = [
+                    name: Phoenix.HTML.Form.input_name(form, field),
+                    value: value,
+                    id: new_id,
+                    class: "form-control"
+                ]
+                form_element(form, field, value, index)
+                links_input(form, field)
+            end)
+        end
+    end
+
     def array_input(form, field) do
         values = Phoenix.HTML.Form.input_value(form, field) || [""]
         id = Phoenix.HTML.Form.input_id(form, field)
