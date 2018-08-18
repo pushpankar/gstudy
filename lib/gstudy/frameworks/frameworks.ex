@@ -394,14 +394,14 @@ defmodule Gstudy.Frameworks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_framework(framework \\ %{}) do
-    framework_id = elem(insert_framework(%{title: framework.title, description: framework.description}), 1).id
+#  def create_framework(framework \\ %{}) do
+#    framework_id = elem(insert_framework(%{title: framework.title, description: framework.description}), 1).id
+#
+#    topic_ids = Enum.map(framework.topics, fn(x) -> elem(create_topic(x), 1).id end)
+#    associate_framework_topic(framework_id, topic_ids)
+# end
 
-    topic_ids = Enum.map(framework.topics, fn(x) -> elem(create_topic(x), 1).id end)
-    associate_framework_topic(framework_id, topic_ids)
-  end
-
-  def insert_framework(attrs \\ %{}) do
+  def create_framework(attrs \\ %{}) do
     %Framework{}
     |> Framework.changeset(attrs)
     |> Repo.insert()
