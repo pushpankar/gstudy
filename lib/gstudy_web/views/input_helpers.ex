@@ -12,7 +12,7 @@ defmodule GstudyWeb.InputHelpers do
             |> Enum.map(fn {value, index} ->
                 new_id = id <> "_#{index}"
                 input_opts = [
-                    name: Phoenix.HTML.Form.input_name(form, field),
+                    name: Phoenix.HTML.Form.input_name(form, field) <> "[]",
                     value: value,
                     id: new_id,
                     class: "form-control"
