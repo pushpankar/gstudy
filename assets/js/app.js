@@ -22,6 +22,7 @@ import "phoenix_html"
 
 window.onload = () => {
     const removeElement = ({target}) => {
+      console.log("Here");
       let el = document.getElementById(target.dataset.id);
       let li = el.parentNode;
       li.parentNode.removeChild(li);
@@ -40,7 +41,8 @@ window.onload = () => {
         let newRow = dataset.prototype;
         container.insertAdjacentHTML("beforeend",       newRow.replace(/__name__/g, index));
         container.dataset.index = parseInt(container.dataset.index) + 1;
-        container.querySelector("a.remove-form-field").onclick = (e) => {
+        let all_remove_links = document.querySelectorAll("a.remove-form-field")
+        all_remove_links[all_remove_links.length - 1].onclick = (e) => {
           removeElement(e);
         }
       }

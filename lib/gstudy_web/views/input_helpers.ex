@@ -46,7 +46,7 @@ defmodule GstudyWeb.InputHelpers do
     def array_add_button(form, field) do
         id = Phoenix.HTML.Form.input_id(form, field)
         content = form_element(form, field, "", "__name__")
-            |> safe_to_string
+                    |> safe_to_string
         data = [
             prototype: content,
             container: container_id(id)

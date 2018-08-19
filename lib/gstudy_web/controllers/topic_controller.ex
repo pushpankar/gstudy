@@ -11,7 +11,9 @@ defmodule GstudyWeb.TopicController do
     end
 
     def new(conn, %{"framework_id" => framework_id}) do
-        changeset = Frameworks.change_topic(%Topic{links: [%Topic{}]})
+        changeset = 
+            Frameworks.change_topic(%Topic{})
+            |> Ecto.Changeset.put_assoc(:links, [Frameworks.change_link(%Link{})])
         render(conn, "new.html", changeset: changeset, framework_id: framework_id)
     end
 
