@@ -139,33 +139,6 @@ defmodule Gstudy.Frameworks do
     |> Repo.preload(:links)
   end
 
-  def link_to_id(link) do
-    link
-    |> create_link()
-    |> handle_existing_link()
-  end
-
-  defp handle_existing_link({:ok, _link} = status), do: status
-  defp handle_existing_link({:error, changeset}) do
-    { :ok,
-      Repo.get_by!(Link, url: changeset.changes.url)
-    }
-  end
-
-  @doc """
-  Creates a topic and its associations
-  ## Example
-  iex> create_topic(%{name: "abc", links: [%{url: abc}, %{url: xyz}]})
-  """
-  def create_topic(topic) do
-    # Handle fail case
-    topic_id = elem(insert_topic(%{name: topic.name}), 1).id
-
-    link_ids = Enum.map(topic.links, fn(x) -> elem(link_to_id(x), 1).id end)
-    associate_topic_link(topic_id, link_ids)
-  end
-
-
   @doc """
   Creates a topic.
 
@@ -178,7 +151,7 @@ defmodule Gstudy.Frameworks do
   {:error, %Ecto.Changeset{}}
 
   """
-  def insert_topic(attrs \\ %{}) do
+  def create_topic(attrs \\ %{}) do
     %Topic{}
     |> Topic.changeset(attrs)
     |> Repo.insert()
@@ -278,16 +251,8 @@ defmodule Gstudy.Frameworks do
   {:error, %Ecto.Changeset{}}
 
   """
-  def associate_topic_link(topic_id, []), do: {:ok, get_topic(topic_id)}
-  def associate_topic_link(topic_id, link_ids) do
-    add_link_to_topic(%{topic_id: topic_id, link_id: hd(link_ids)})
-    associate_topic_link(topic_id, tl(link_ids))
-  end
 
-  @doc """
-  Inserts row in topic-link junction table
-  """
-  def add_link_to_topic(attrs \\ %{}) do
+  def create_topic_maker(attrs \\ %{}) do
     %Topic_maker{}
     |> Topic_maker.changeset(attrs)
     |> Repo.insert()
@@ -485,13 +450,6 @@ defmodule Gstudy.Frameworks do
   """
   def get_framework_junction!(id), do: Repo.get!(Framework_junction, id)
 
-
-  def associate_framework_topic(framework_id, []), do: {:ok, get_framework!(framework_id)}
-  def associate_framework_topic(framework_id, topic_ids) do
-    add_topic_to_frameworks(%{framework_id: framework_id, topic_id: hd(topic_ids)})
-    associate_framework_topic(framework_id, tl(topic_ids))
-  end
-
   @doc """
   Creates a framework_junction.
 
@@ -504,7 +462,7 @@ defmodule Gstudy.Frameworks do
       {:error, %Ecto.Changeset{}}
 
   """
-  def add_topic_to_frameworks(attrs \\ %{}) do
+  def create_framework_junction(attrs \\ %{}) do
     %Framework_junction{}
     |> Framework_junction.changeset(attrs)
     |> Repo.insert()

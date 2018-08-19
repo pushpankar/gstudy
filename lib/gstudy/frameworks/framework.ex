@@ -8,6 +8,7 @@ defmodule Gstudy.Frameworks.Framework do
     field :title, :string
 
     many_to_many :topics, Gstudy.Frameworks.Topic, join_through: Gstudy.Frameworks.Framework_junction
+
     timestamps()
   end
 
