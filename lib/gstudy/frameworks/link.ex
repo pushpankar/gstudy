@@ -5,7 +5,7 @@ defmodule Gstudy.Frameworks.Link do
 
   schema "links" do
     field :url, :string
-    many_to_many :topics, Gstudy.Frameworks.Link, join_through: Gstudy.Frameworks.Topic_maker
+    many_to_many :topics, Gstudy.Frameworks.Topic, join_through: Gstudy.Frameworks.Topic_maker
 
     timestamps()
   end
@@ -15,6 +15,5 @@ defmodule Gstudy.Frameworks.Link do
     link
     |> cast(attrs, [:url])
     |> validate_required([:url])
-    |> unique_constraint(:url)
   end
 end

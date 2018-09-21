@@ -23,14 +23,11 @@ defmodule GstudyWeb.FrameworkController do
   end
 
   def create(conn, %{"framework" => framework_params}) do
-    framework_changeset = %{title: framework_params["title"],
-                            description: framework_params["description"],
-                            topics: parse_topic(Map.values(framework_params["topics"]))}
-    case Frameworks.create_framework(framework_changeset) do
-      {:ok, framework} ->
+    case Frameworks.create_framework(framework_params) do
+      {:ok, %{id: framework_id}} ->
         conn
-        |> put_flash(:info, "Framework created successfully.")
-        |> redirect(to: framework_path(conn, :show, framework))
+        |> put_flash(:info, "Now add topics to the framework.")
+        |> redirect(to: framework_topic_path(conn, :new, framework_id))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

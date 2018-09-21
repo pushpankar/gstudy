@@ -1,0 +1,3 @@
+<h2> New Topic </h2>
+
+<%= render "form.html", Map.put(assigns, :action, framework_topic_path(@conn, :create, @framework_id)) %>

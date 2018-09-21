@@ -8,6 +8,5 @@ defmodule Gstudy.Repo.Migrations.CreateLinks do
       timestamps()
     end
 
-    create unique_index(:links, [:url])
   end
 end
