@@ -1,3 +1,4 @@
+# No longer being maintained
 # Gstudy
 
 To start your Phoenix server:
