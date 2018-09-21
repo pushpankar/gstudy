@@ -1,4 +1,5 @@
 defmodule Gstudy.Frameworks do
+  require IEx
   @moduledoc """
   The Frameworks context.
   """

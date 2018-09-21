@@ -1,13 +1,11 @@
 defmodule GstudyWeb.TopicController do
     use GstudyWeb, :controller
+    
 
     alias Gstudy.Frameworks
-    alias Gstudy.Frameworks.{Topic, Link}
-
-    plug :assign_framework
+    alias Gstudy.Frameworks.{Topic, Link, Framework}
 
     def index(conn, _params) do
-
     end
 
     def new(conn, %{"framework_id" => framework_id}) do
@@ -18,26 +16,21 @@ defmodule GstudyWeb.TopicController do
     end
 
     def show(conn, _params) do
-
     end
 
-    def create(conn, %{"topic" => topic_params}) do
-        case Frameworks.create_topic(topic_params) do
-            {:ok, topic} ->
+    def create(conn, %{"topic" => topic_params, "framework_id" => framework_id}) do
+        framework_old = Frameworks.get_framework!(framework_id)
+        framework_new = Map.replace!(framework_old, :topics, framework_old.topics ++ [topic_params]) |> Map.from_struct()
+
+        case Frameworks.update_framework(framework_old, framework_new) do
+            {:ok, framework} ->
                 conn
-                |> put_flash(:info, "Do you want to add more topics")
-            {:error, %Ecto.Changeset{} = changeset} ->
-                render(conn, "new.html", changeset: changeset)
+                |> put_flash(:info, "Succcess")
+                |> redirect(to: framework_path(conn, :show, framework))
+            {:error, changeset} ->
+                conn
+                |> put_flash(:info, "Error")
         end
     end
 
-    def assign_framework(conn, _opts) do
-        case conn.params do
-            %{"framework_id" => framework_id} ->
-                framework = Frameworks.get_topic(framework_id)
-                assign(conn, :framework, framework)
-            _ ->
-                conn
-        end
-    end
 end
